@@ -2,7 +2,7 @@ import pandas as pd
 
 #1: Add 12 Records. Take input from the user.
 data = []
-for _ in range(12):
+for i in range(12):
     prod_no = input("Enter Product Number: ")
     prod_name = input("Enter Product Name: ")
     sales = [int(input(f"Enter sales for {month}: ")) for month in ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]]
