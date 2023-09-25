@@ -1,0 +1,65 @@
+import pandas as pd
+
+#1: Add 12 Records. Take input from the user.
+data = []
+for i in range(12):
+    prod_no = input("Enter Product Number: ")
+    prod_name = input("Enter Product Name: ")
+    sales = [int(input(f"Enter sales for {month}: ")) for month in ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]]
+    data.append([prod_no, prod_name] + sales)
+
+#2: Create a DataFrame.
+df = pd.DataFrame(data, columns=["Prod_No", "Prod_Name", "Jan", "Feb", "Mar", "Apr", "May", "Jun"])
+
+#3: Change Column Names.
+df.columns = ["Product No", "Product Name", "January", "February", "March", "April", "May", "June"]
+
+#4: Add columns for "Total Sell" and "Average Sell".
+df["Total Sell"] = df.iloc[:, 2:].sum(axis=1)
+df["Average Sell"] = df.iloc[:, 2:8].mean(axis=1)
+
+#5: Add 2 rows at the end.
+new_rows = [["P13", "Product13", 1000, 2000, 3000, 4000, 5000, 6000, 21000, 3500],
+            ["P14", "Product14", 1500, 2500, 3500, 4500, 5500, 6500, 28000, 4666]]
+df = df.append(pd.DataFrame(new_rows, columns=df.columns), ignore_index=True)
+
+#6: Add 2 rows after the 3rd row.
+new_rows = [["P15", "Product15", 700, 800, 900, 1000, 1100, 1200, 5500, 916.67],
+            ["P16", "Product16", 800, 900, 1000, 1100, 1200, 1300, 6500, 1083.33]]
+df = pd.concat([df.iloc[:3], pd.DataFrame(new_rows, columns=df.columns), df.iloc[3:]]).reset_index(drop=True)
+
+#7: Print the first 5 rows.
+print("First 5 Rows:")
+print(df.head())
+
+#8: Print the last 5 rows.
+print("\nLast 5 Rows:")
+print(df.tail())
+
+#9: Print rows 6 to 10.
+print("\nRows 6 to 10:")
+print(df.iloc[5:10])
+
+#10: Print only the product name.
+print("\nProduct Names:")
+print(df["Product Name"])
+
+#11: Print sales of January with product ID and product name.
+print("\nJanuary Sales with Product ID and Name:")
+print(df[["Product No", "Product Name", "January"]])
+
+#12: Print product ID and product name where January sales > 5000 and February sales > 8000.
+print("\nProduct ID and Name where January Sales > 5000 and February Sales > 8000:")
+print(df[(df["January"] > 5000) & (df["February"] > 8000)][["Product No", "Product Name"]])
+
+#13: Print records in sorting order of Product name.
+print("\nSorted by Product Name:")
+print(df.sort_values(by="Product Name"))
+
+#14: Display only odd index number columns.
+print("\nOdd Index Number Columns:")
+print(df.iloc[:, 1::2])
+
+#15: Display alternate rows.
+print("\nAlternate Rows:")
+print(df.iloc[::2])
